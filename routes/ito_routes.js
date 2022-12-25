@@ -94,4 +94,23 @@ router.post('/', async (request, response) => {
     }
 });
 
+/* Delete User from MySQL database */
+router.delete('/', async (request, response) => {
+    let query = `DELETE FROM users WHERE id = ${request.body.id}`;
+
+    const dbQuery = await db.query(query);
+
+    if(dbQuery.affectedRows !== 1) {
+        response.json({
+            message: "Ups! Something went wrong. The user data was not deleted. Please, try again!",
+            result: false
+        })
+    } else {
+        response.json({
+            message: "Great! The user data was successfully deleted",
+            result: true
+        })
+    }
+});
+
 module.exports = router

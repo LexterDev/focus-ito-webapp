@@ -107,6 +107,53 @@ addEventListener('DOMContentLoaded', () => {
         })
     }
 
+    // Delete User from Database by using event delegation
+    window.addEventListener('click', event => {
+
+        //Check if the element that triggers the event is the deletion button
+        if(event.target.classList.contains('btn-delete-user')) {
+            Swal.fire({
+                title: 'Do you really want to delete this user?',
+                text: "You won't be able to revert this!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, get rid of it!'
+              }).then((result) => {
+                if (result.isConfirmed) {
+
+                    //Get card parent element to remove it from DOM if the user is successully deleted from DB
+                    const parent = event.target.parentNode.parentNode.parentNode
+
+                    //User id to send to the endpoint
+                    const userId = {
+                        id: event.target.dataset.userId
+                    }
+
+                    //Send request to delete user
+                    ajaxRequest('/users', 'DELETE', userId)
+                    .then(response => {
+                        if(response.result) {
+                            parent.remove()
+                            Swal.fire(
+                                'Deleted!',
+                                `${response.message}`,
+                                'success'
+                            )
+                        } else {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Oops...',
+                                text: response.message
+                            })
+                        }
+                    })
+                }
+              })
+        }
+    })
+
     //Load and draw user when the page loads
     ajaxRequest('/users')
     .then(users => {
