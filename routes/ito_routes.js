@@ -58,3 +58,40 @@ router.get('/', async (request, response) => {
 
     response.json(mixedUsers)
 });
+
+/* Save new user and return new User data to frontend */
+router.post('/', async (request, response) => {
+
+    // DB query
+    let query = `INSERT INTO users (firstName, lastName, email, phoneNumber, picture) VALUES
+    ('${request.body.firstName}', '${request.body.lastName}', '${request.body.email}', '${request.body.phoneNumber}', '${request.body.picture}')`;
+
+    //Query results
+    const dbQuery = await db.query(query);
+
+    //New User data sent as response to frontend
+    const newUserData = {
+        id: dbQuery.insertId,
+        firstName: request.body.firstName,
+        lastName: request.body.lastName,
+        email: request.body.email,
+        phoneNumber: request.body.phoneNumber,
+        picture: request.body.picture
+    }
+
+    // If user is successfully saved or not
+    if(dbQuery.affectedRows !== 1) {
+        response.json({
+            message: "Ups! Something went wrong. The user data was not saved. Please, try again!",
+            result: false
+        })
+    } else {
+        response.json({
+            message: "Great! The user data was successfully saved",
+            result: true,
+            savedUserData: [newUserData]
+        })
+    }
+});
+
+module.exports = router
