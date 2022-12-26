@@ -4,6 +4,7 @@ addEventListener('DOMContentLoaded', () => {
     const loader = document.querySelector('#loader')
     const frmNewUser = document.querySelector('#frmNewUser')
     const btnCloseFrm = document.querySelector('#frmBtnClose')
+    const btnSpinner = document.querySelector('.save-spinner')
 
     //AJAX base function
     const ajaxRequest = async (url, method = 'GET', body = null) => {
@@ -11,6 +12,8 @@ addEventListener('DOMContentLoaded', () => {
         // Show loader when sending request
         loader.style.opacity = 1
         loader.style.display = 'block'
+        btnSpinner.style.display = 'inline-block'
+        
 
         // customized Fetch request
         try {
@@ -23,6 +26,7 @@ addEventListener('DOMContentLoaded', () => {
           })
           loader.style.opacity = 0
           loader.style.display = 'none'
+          btnSpinner.style.display = 'none'
           return response.json()
         } catch (error) {
             alert(`${'Ups! Something went wrong, we cannnot process your request. Reasons: '}${error.message}`)
