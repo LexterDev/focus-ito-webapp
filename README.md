@@ -28,10 +28,10 @@ const db_config = {
   };
 ```
 
-After setting up the app, you can start the app by executing: *npm run dev*
+After setting up the app, you can start the app by executing: *npm run dev* or *node index.js*.
 
-### Comments
-Since the app requests random users from [https://randomuser.me/api?results=10](https://randomuser.me/api?results=10) and we cannot manipulate that resource to delete/add users, so the app only allows to delete users that have been in the app, not the ones comming from the random API. 
+### Additional Comments
+Since the app requests random users from [https://randomuser.me/api?results=10](https://randomuser.me/api?results=10) and we cannot manipulate that resource to delete/add users, so the app only allows to delete users that have been saved using the app, not the ones coming from the random API.
 
 
 
